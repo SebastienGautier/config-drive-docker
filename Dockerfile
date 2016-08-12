@@ -1,11 +1,9 @@
-FROM ubuntu:latest
+FROM alpine
 MAINTAINER Sébastien Gautier
 
 VOLUME ["/opt/data"]
 
-RUN apt-get update
-RUN apt-get install -y genisoimage
+RUN apk update && apk add xorriso
 RUN mkdir -p /tmp/new-drive/openstack/latest
 
-CMD cp /opt/data/user_data /tmp/new-drive/openstack/latest/user_data
-CMD mkisofs -R -V config-2 -o /opt/data/configdrive.iso /tmp/new-drive
+ENTRYPOINT /bin/sh /opt/data/entrypoint.sh
